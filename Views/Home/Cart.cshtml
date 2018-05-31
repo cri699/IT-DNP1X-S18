@@ -1,0 +1,27 @@
+﻿@model IEnumerable<CatsSystem.Data.Entities.Carts>
+
+@{
+    ViewData["Title"] = "Cart";
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+<div class="container">
+    <div class="row">
+        <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h1 class="gallery-title">CART</h1>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+                <img src="~/images/@Html.DisplayFor(modelItem => item.Cat.Photo)" class="img-responsive">
+                @Html.DisplayFor(modelItem => item.Cat.Price) - @Html.DisplayFor(modelItem => item.Cat.Status)
+                <a asp-controller="Cats" asp-action="Details" asp-route-id="@item.Cat.Id">Details</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Home" asp-action="RemoveFromCart" asp-route-id="@item.Cat.Id">Remove from Cart |</a>
+                }
+            </div>
+        }
+    </div>
+</div>

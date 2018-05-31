@@ -1,0 +1,43 @@
+﻿@model IEnumerable<CatsSystem.Data.Entities.Cats>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>@User.Identity.Name</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("admin"))
+    {
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        }
+}
+
+
+        <div class="container">
+            <div class="row">
+                <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h1 class="gallery-title">Gallery</h1>
+                </div>
+                @foreach (var item in Model)
+                {
+                    <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+                        <img src="~/images/@Html.DisplayFor(modelItem => item.Photo)" class="img-responsive">
+                        @Html.DisplayFor(modelItem => item.Price) - @Html.DisplayFor(modelItem => item.Status)
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("admin"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete |</a>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit |</a>
+                            }
+
+                            <a asp-controller="Home" asp-action="AddToCart" asp-route-id="@item.Id">AddToCart</a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
